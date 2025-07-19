@@ -2,22 +2,32 @@ import { AtomIcon } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from './ui/button';
 import Image from 'next/image';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 export default function Navbar() {
-    const auth = true; //auth variable to check if user is authenticated, replace with actual auth logic
+    const auth = true; 
+    const user = {
+        name: "John Doe",
+        email: "ajailsdj@gmail.com",
+        image: "/profile.png",
+    }//auth variable to check if user is authenticated, replace with actual auth logic
     return (
         <div className='flex items-center justify-between w-full'>
             <div>
-                <Link href="/" className='flex items-center gap-1 font-extrabold text-2xl'>
+                <Link href="/" className='flex items-center gap-1 font-extrabold md:text-2xl'>
                     <AtomIcon />Opmus Clips
                 </Link>
             </div>
             {auth ? (
-                <div className='flex items-center gap-2'>
-                    <Link href="/dashboard">
-                        <Image src="/profile.png" alt="Profile" width={40} height={40} className="rounded-full bg-gray-100" />
-                    </Link>
-                    <Button variant="secondary" size={"sm"}>Logout</Button>
+                <div className='flex items-center gap-2 text-sm md:text-xl'>
+                    <UserModalComponent user={user} />
                 </div>
             ) : (
                 <div>
@@ -30,5 +40,28 @@ export default function Navbar() {
                 </div>
             )}
         </div>
+    )
+}
+
+const UserModalComponent = ({user}) => {
+    return (
+        <DropdownMenu>
+            <DropdownMenuTrigger>
+                <Image src={user.image} alt="Profile" width={40} height={40} className="rounded-full bg-gray-100" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+                <DropdownMenuLabel>{user.name}</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                    <Link href={`/profile/${user.email}`}>Profile</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>Billing</DropdownMenuItem>
+                <DropdownMenuItem>Team</DropdownMenuItem>
+                <DropdownMenuItem>Subscription</DropdownMenuItem>
+                <DropdownMenuItem>
+                    <Button variant="secondary" size={"sm"}>Logout</Button>
+                </DropdownMenuItem>
+            </DropdownMenuContent>
+        </DropdownMenu>
     )
 }

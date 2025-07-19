@@ -9,10 +9,11 @@ export default function Home() {
       <section className="flex flex-col items-center justify-center gap-6 sm:h-screen h-[80vh]">
         <div className="flex flex-col items-center gap-3">
           <h1 className="text-4xl font-bold sm:text-5xl text-center">Manage your content With Ease 🎬</h1>
-          <p className="text-gray-500 text-lg">Your content seamlessly managed by our servers</p>
+          <p className="text-gray-500 text-lg text-center">Your content seamlessly managed by our servers</p>
         </div>
         <div className="flex gap-4 justify-center">
-          <Button>Try it out!</Button>
+          
+          <Link href="/sign-in"><Button>Try it out!</Button></Link>
           <Link href="/blogs"><Button variant="secondary">Learn More</Button></Link>
         </div>
       </section>
