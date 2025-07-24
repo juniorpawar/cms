@@ -3,6 +3,8 @@ import "./globals.css";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import Navbar from "@/components/navbar";
+import AuthProvider from "@/components/providers/AuthProvider";
+import { Toaster } from "@/components/ui/toaster";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -23,17 +25,23 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className="dark p-5">
+      <head>
+        <title>Opmus Clips</title>
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <SidebarProvider className="">
-          <AppSidebar />
-          <main className="w-full flex flex-col ">
-            <SidebarTrigger />
-            <Navbar/>
-            {children}
-          </main>
-        </SidebarProvider>
+        <AuthProvider>
+          <SidebarProvider>
+            <AppSidebar />
+            <main className="w-full flex flex-col ">
+              <SidebarTrigger />
+              <Navbar />
+              {children}
+              <Toaster/>
+            </main>
+          </SidebarProvider>
+        </AuthProvider>
       </body>
     </html>
   );

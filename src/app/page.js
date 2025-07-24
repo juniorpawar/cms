@@ -1,9 +1,14 @@
+'use client';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Shapes, Zap, Pencil } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 
 export default function Home() {
+  const session = useSession();
+  console.log("Session:", session);
+
   return (
     <main className="flex flex-col items-center justify-center min-h-screen">
       <section className="flex flex-col items-center justify-center gap-6 sm:h-screen h-[80vh]">

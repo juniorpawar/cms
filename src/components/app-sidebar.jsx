@@ -11,7 +11,7 @@ import Link from "next/link";
 const SidebarItems = [
     { title: 'Home', path: '/', icon: House },
     { title: 'Dashboard', path: '/dashboard', icon: Shapes },
-    { title: 'Login', path: '/login', icon: UserLock },
+    { title: 'Login', path: '/sign-in', icon: UserLock },
     { title: 'Blogs', path: '/blogs', icon: BookText },
     { title: 'settings', path: '/settings', icon: Settings },
 ]
