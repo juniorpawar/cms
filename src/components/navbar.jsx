@@ -16,19 +16,19 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 export default function Navbar() {
-    const handleSignOut = async ()=> {
-    // const { toast } = useToast();
-    prompt("Are you sure you want to sign out?");
-    console.log("Signing out...");
-    // toast({
-    //     title: "Signing out",
-    //     description: "You are being signed out...", 
-    //     variant: "default",
-    // });
-    await signOut();
-}
+    const handleSignOut = async () => {
+        // const { toast } = useToast();
+        prompt("Are you sure you want to sign out?");
+        console.log("Signing out...");
+        // toast({
+        //     title: "Signing out",
+        //     description: "You are being signed out...", 
+        //     variant: "default",
+        // });
+        await signOut();
+    }
     const session = useSession();
-    
+
     const auth = session.status === "authenticated" ? true : false; // Example auth check, replace with actual logic
     const user = {
         name: "John Doe",
@@ -44,7 +44,7 @@ export default function Navbar() {
             </div>
             {auth ? (
                 <div className='flex items-center gap-2 text-sm md:text-xl'>
-                    <UserModalComponent user={session.data.user} handleSignOut={handleSignOut}/>
+                    <UserModalComponent user={session.data.user} handleSignOut={handleSignOut} />
                 </div>
             ) : (
                 <div>
@@ -61,11 +61,11 @@ export default function Navbar() {
 }
 
 
-const UserModalComponent = ({ user , handleSignOut}) => {
+const UserModalComponent = ({ user, handleSignOut }) => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger>
-                <Image src='/profile.png' alt="Profile" width={40} height={40} className="rounded-full bg-gray-100" />
+                <Image src={user.image} alt="Profile" width={40} height={40} className="rounded-full bg-gray-100" />
             </DropdownMenuTrigger>
             <DropdownMenuContent>
                 <DropdownMenuLabel>{user.name}</DropdownMenuLabel>
@@ -78,7 +78,7 @@ const UserModalComponent = ({ user , handleSignOut}) => {
                 <DropdownMenuItem>Subscription</DropdownMenuItem>
                 <DropdownMenuItem>
                     <Button
-                        onClick = {handleSignOut}
+                        onClick={handleSignOut}
                         variant="secondary" size={"sm"}>
                         Logout
                     </Button>

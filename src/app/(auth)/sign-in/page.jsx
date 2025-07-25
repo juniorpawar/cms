@@ -3,7 +3,6 @@
 import { UserRoundCheck, AtomIcon } from "lucide-react"
 import { signIn, signOut, useSession } from "next-auth/react"
 import { useToast } from "@/hooks/use-toast"
-import { redirect } from "next/navigation";
 import { useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -16,12 +15,14 @@ export default function Signin() {
   const handleSignIn = async () => {
     console.log("Sign-in button clicked");
     try {
+      // on click logic for sign in button uses signIn("google") form next auth
       setLoading(true);
       await signIn("google", {
         redirect: true,
         callbackUrl: '/dashboard' // where you want the user to go after sign in
       });
     } catch (error) {
+      //handle the error 
       console.error("Error during sign-in:", error);
       toast({
         title: "Sign-in failed",
