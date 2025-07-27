@@ -1,13 +1,12 @@
 import Category from "@/models/categoryModel";
 import Post from "@/models/postModel";
-import connectToDB from "@/utils/db";
-import { getServerSession } from "next-auth"; 
+import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { authOptions } from "@/lib/auth";
+import { slugify } from "slugmaster";
 
 
 export async function POST(request) {
-    await connectToDB();
     const session = await getServerSession(authOptions);
     if (!session || !session.user) {
         return NextResponse.json({
@@ -18,8 +17,8 @@ export async function POST(request) {
     const body = await request.json();
     const { title, keywords, ogImage, content, excerpt, metaDescription, category, status, slug } = body;
 
-    if (!title || !ogImage || !content || !category || !slug) {
-        return NextResponse.json({ message: "Required Data missing", status: 400 })
+    if (!title || !content || !category || !slug) {
+        return NextResponse.json({ message: "Required Data missing" }, { status: 400 });
     }
 
     const postStatus = status || 'DRAFT';
@@ -31,15 +30,15 @@ export async function POST(request) {
 
         let newCategory = null;
         if (!existingCategory) {
-                newCategory = await Category.create({
+            newCategory = await Category.create({
                 name: category.charAt(0).toUpperCase() + category.slice(1),
-                slug: category
+                slug: slugify(category)
             })
         }
 
         const existingPost = await Post.findOne({ slug });
         if (existingPost) {
-            return NextResponse.json({ message: "Post with this slug already exists", status: 409 });
+            return NextResponse.json({ message: "Post with this slug already exists" }, { status: 409 });
         }
 
         const newPost = await Post.create({
@@ -52,13 +51,14 @@ export async function POST(request) {
             excerpt: excerpt || null,
             categoryId: existingCategory ? existingCategory._id : newCategory._id,
             status: postStatus,
-            authorId: session.user.id
+            authorId: session.user._id
         });
 
-        return NextResponse.json({ message: "data saved successfully 👍", status: 201 });
+        console.log("Post data saved successfully 👍")
+        return NextResponse.json({ message: "data saved successfully 👍" }, { status: 201 });
     } catch (err) {
         console.log(err.message)
-        return NextResponse.json({ message: "data could not be saved to db 😭", status: 500 })
+        return NextResponse.json({ message: err.message }, { status: 500 })
     }
 }
 

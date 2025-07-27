@@ -2,7 +2,7 @@
 
 import { UserRoundCheck, AtomIcon } from "lucide-react"
 import { signIn, signOut, useSession } from "next-auth/react"
-import { useToast } from "@/hooks/use-toast"
+import { toast } from "@/hooks/use-toast"
 import { useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 export default function Signin() {
   const session = useSession();
   console.log(session);
-  const { toast } = useToast();
+
   const [loading, setLoading] = useState(false);
   const handleSignIn = async () => {
     console.log("Sign-in button clicked");

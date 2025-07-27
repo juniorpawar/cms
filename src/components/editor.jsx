@@ -80,8 +80,9 @@ export default function Editor({ onSave }) {
                     <select
                         {...register("status")}
                         className="bg-stone-600 rounded-lg font-semibold"
+                        defaultValue={"DRAFT"}
                     >
-                        <option value="DRAFT" selected>Draft</option>
+                        <option value="DRAFT">Draft</option>
                         <option value="PUBLISHED">Publish</option>
                     </select>
                     <Button variant={"secondary"} className="w-fit">Save</Button>

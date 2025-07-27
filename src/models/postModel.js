@@ -19,7 +19,8 @@ const postSchema = new mongoose.Schema({
     },
     thumbnail: {
         type: String,
-        required: true
+        required: true,
+        default: "/blog-default-cover.jpg"
     },
     desc: {
         type: String,

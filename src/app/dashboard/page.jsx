@@ -23,6 +23,13 @@ export default function Dashboard() {
             variant: "destructive",
         });
         redirect("/sign-in");
+    } else {
+        toast({
+            title: "Welcome back 🔥",
+            description: "Successfully logged in to Project CMS",
+            variant: "success",
+        });
+
     }
 
     return (
@@ -35,13 +42,6 @@ export default function Dashboard() {
                         <Bell size={20} />
                         <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full" />
                     </button>
-                    <Image
-                        src="/avatar.jpg"
-                        alt="User Avatar"
-                        width={32}
-                        height={32}
-                        className="rounded-full"
-                    />
                 </div>
             </div>
 
@@ -81,7 +81,7 @@ const cardConfig = [
     {
         title: "Scheduled",
         value: "6",
-        icon: <ClockFading  size={30} />
+        icon: <ClockFading size={30} />
     }
 ]
 function StatCard({ title, value }) {

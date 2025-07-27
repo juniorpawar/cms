@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Button } from './ui/button';
 import Image from 'next/image';
 import { signOut, useSession } from 'next-auth/react';
-import { useToast } from '@/hooks/use-toast';
+import { toast } from '@/hooks/use-toast';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -20,11 +20,11 @@ export default function Navbar() {
         // const { toast } = useToast();
         prompt("Are you sure you want to sign out?");
         console.log("Signing out...");
-        // toast({
-        //     title: "Signing out",
-        //     description: "You are being signed out...", 
-        //     variant: "default",
-        // });
+        toast({
+            title: "Signing out",
+            description: "You are being signed out...", 
+            variant: "warning",
+        });
         await signOut();
     }
     const session = useSession();
