@@ -92,3 +92,11 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+.ql-editor {
+  min-height: 250px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+

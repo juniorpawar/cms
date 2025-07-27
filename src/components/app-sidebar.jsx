@@ -5,7 +5,7 @@ import {
     SidebarGroup,
     SidebarHeader,
 } from "@/components/ui/sidebar"
-import { UserLock, Settings, House, Shapes, BookText } from "lucide-react";
+import { UserLock, Settings, House, Shapes, BookText, Pen } from "lucide-react";
 import Link from "next/link";
 
 const SidebarItems = [
@@ -13,6 +13,7 @@ const SidebarItems = [
     { title: 'Dashboard', path: '/dashboard', icon: Shapes },
     { title: 'Login', path: '/sign-in', icon: UserLock },
     { title: 'Blogs', path: '/blogs', icon: BookText },
+    { title: "Drafts", path: '/draft', icon: Pen },
     { title: 'settings', path: '/settings', icon: Settings },
 ]
 
