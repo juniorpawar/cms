@@ -1,8 +1,7 @@
 "use client"
 import { redirect } from "next/navigation";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession} from "next-auth/react";
 import { toast } from "@/hooks/use-toast";
-import Image from 'next/image'
 import { Bell, Film, ClockFading, DraftingCompass } from 'lucide-react'
 import ChartDashboard from "@/components/chart-dashboard";
 

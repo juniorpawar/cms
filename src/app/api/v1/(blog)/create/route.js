@@ -4,15 +4,13 @@ import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { authOptions } from "@/lib/auth";
 import { slugify } from "slugmaster";
+import { htmlToText } from "html-to-text";
 
 
 export async function POST(request) {
     const session = await getServerSession(authOptions);
     if (!session || !session.user) {
-        return NextResponse.json({
-            message: "Unauthorized user , No session found.",
-            status: 401
-        })
+        return NextResponse.json({ message: "Unauthorized user , No session found." }, { status: 401 })
     }
     const body = await request.json();
     const { title, keywords, ogImage, content, excerpt, metaDescription, category, status, slug } = body;

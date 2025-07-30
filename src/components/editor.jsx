@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form"
 import { Button } from "./ui/button";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css"
+import "@/styles/quillContent.css"
 import { useState } from "react";
 import { slugify } from "slugmaster";
 import ImageUpload from "./imageUpload";

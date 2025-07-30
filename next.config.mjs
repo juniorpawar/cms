@@ -3,7 +3,8 @@ const nextConfig = {
     images: {
         domains: [
             'lh3.googleusercontent.com', // for Google profile images
-            // add more domains as needed
+            'firebasestorage.googleapis.com',
+            //add more domains if needed
         ],
     },
 };

@@ -33,7 +33,7 @@ const postSchema = new mongoose.Schema({
     },
     categoryId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category'
+        ref: 'categories'
     },
     status: {
         type: String,
@@ -45,7 +45,7 @@ const postSchema = new mongoose.Schema({
     },
     authorId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'users'
     }
 });
 
