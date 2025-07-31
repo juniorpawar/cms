@@ -4,13 +4,29 @@ import { Button } from "./ui/button";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css"
 import "@/styles/quillContent.css"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { slugify } from "slugmaster";
 import ImageUpload from "./imageUpload";
 
-export default function Editor({ onSave }) {
+export default function Editor({ onSave , existingPost }) {
 
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, setValue } = useForm();
+    const [content, setContent] = useState("");
+    const [ogImage, setOgImage] = useState("");
+
+    useEffect(()=>{
+        if(existingPost){
+            setValue("title" , existingPost.title)
+            setValue("excerpt" , existingPost.excerpt || "")
+            setValue("category" , existingPost.categoryId.name || "")
+            setValue("keywords" , existingPost.keywords || "")
+            setValue("metaDescription" , existingPost.desc || "")
+            setValue("status" , existingPost.status)
+            setContent(existingPost.content)
+            setOgImage(existingPost.thumbnail)
+        }
+    }, [existingPost])
+
 
     const handleForm = (data) => {
         console.log("Data from hook form : ", data);
@@ -20,8 +36,6 @@ export default function Editor({ onSave }) {
         onSave({ ...data, slug: generatedSlug, ogImage, content });
     }
 
-    const [content, setContent] = useState("");
-    const [ogImage, setOgImage] = useState("");
 
     return (
         <section className="flex justify-center items-center min-h-screen px-4">
@@ -56,9 +70,10 @@ export default function Editor({ onSave }) {
                     type="text"
                     className="text-black w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
                     placeholder="Enter category"
+                    disabled={true}
                 />
 
-                <ImageUpload returnImage={setOgImage} />
+                <ImageUpload returnImage={setOgImage} existingPostImage={ogImage}/>
 
                 <label htmlFor="keywords" className="block text-gray-700 font-semibold">Keywords</label>
                 <input

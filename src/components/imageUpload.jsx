@@ -1,8 +1,11 @@
+
+
 import { storage } from "@/static/firebaseConfig";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { ExistingPluginNamespaceError } from "web3";
 
-export default function ImageUpload({ returnImage }) {
+export default function ImageUpload({ returnImage, existingPostImage }) {
 
     const [imageAsFile, setImageAsFile] = useState();
     const [loading, setLoading] = useState(false);
@@ -32,6 +35,14 @@ export default function ImageUpload({ returnImage }) {
             setLoading(false);
         }
     }
+
+    useEffect(() => {
+        if (existingPostImage) {
+            setImageURL(existingPostImage);
+        }
+    }, [existingPostImage])
+
+
 
     return (
         <div className="flex flex-col items-center mt-4">

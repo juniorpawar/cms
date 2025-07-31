@@ -11,10 +11,12 @@ import Link from "next/link";
 // ]
 
 export async function fetchData() {
-    const response = await fetch(`http://localhost:3000/api/v1/get`, { method: "GET" });
+    const response = await fetch(`http://localhost:3000/api/v1/get`, { method: "GET" , cache: "no-store" });
     const data = await response.json();
     return data.allBlogs;
 }
+export const dynamic = "force-dynamic";
+
 
 export default async function Blogs() {
 

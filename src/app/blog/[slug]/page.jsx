@@ -4,7 +4,13 @@ import dateFormat from "@/utils/dateFormat";
 import "@/styles/quillContent.css"
 
 const fetchSingleBlog = async (slug) => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/v1/get/${slug}`, { method: "GET" });
+    const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/v1/get/${slug}`, {
+        method: "GET",
+        cache: "no-store"
+        // next: {
+        //     tags: { slug }
+        // }
+    });
     const data = response.json();
     return data;
 }

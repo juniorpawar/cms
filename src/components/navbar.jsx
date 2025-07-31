@@ -65,7 +65,7 @@ const UserModalComponent = ({ user, handleSignOut }) => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger>
-                <Image src={user.image} alt="Profile" width={40} height={40} className="rounded-full border-2 border-white shadow shadow-white-50 shadow-md" />
+                <Image src={user.image} alt="Profile" width={40} height={40} className="rounded-full border-2 border-white"/>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
                 <DropdownMenuLabel>{user.name}</DropdownMenuLabel>

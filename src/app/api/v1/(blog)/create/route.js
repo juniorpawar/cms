@@ -5,6 +5,7 @@ import { NextResponse } from "next/server";
 import { authOptions } from "@/lib/auth";
 import { slugify } from "slugmaster";
 import { htmlToText } from "html-to-text";
+import User from "@/models/userModel";
 
 
 export async function POST(request) {
@@ -51,6 +52,8 @@ export async function POST(request) {
             status: postStatus,
             authorId: session.user._id
         });
+
+        await User.findByIdAndUpdate(session.user._id, { $push: { posts: newPost._id } });
 
         console.log("Post data saved successfully 👍")
         return NextResponse.json({ message: "data saved successfully 👍" }, { status: 201 });

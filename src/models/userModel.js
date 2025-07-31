@@ -26,11 +26,11 @@ const userSchema = new mongoose.Schema({
     role:{
         type: String,
         enum: ['ADMIN', 'USER'],
-        required: true
+        default: 'USER'
     },
     posts: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Post'
+        ref: 'posts'
     }],
     createdAt:{
         type: Date,
