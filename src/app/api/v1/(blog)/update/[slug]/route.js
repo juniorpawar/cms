@@ -45,7 +45,7 @@ export async function PUT(request, { params }) {
         )
 
         revalidateTag(slug);
-        console.log("UPDATED POST : ", updatedPost);
+        // console.log("UPDATED POST : ", updatedPost);
         return NextResponse.json(updatedPost, { status: 200 });
 
     } catch (err) {

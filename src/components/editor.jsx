@@ -7,21 +7,39 @@ import "@/styles/quillContent.css"
 import { useEffect, useState } from "react";
 import { slugify } from "slugmaster";
 import ImageUpload from "./imageUpload";
+import { z } from "zod";
+import { toast } from "@/hooks/use-toast";
 
-export default function Editor({ onSave , existingPost }) {
+export const editorSchema = z.object({
+    title: z.string().min(1, "Title is required"),
+    excerpt: z.string()
+        .refine(val => (val ? val.trim().split(/\s+/).length <= 10 : true), {
+            message: "Excerpt must be at most 10 words"
+        })
+        .optional(),
+    category: z.string().min(1, "Category is required"),
+    keywords: z.string()
+        .refine(val => (val ? val.split(",").map(k => k.trim()).filter(Boolean).length >= 1 : false), {
+            message: "At least one keyword is required for SEO benifits"
+        }),
+    metaDescription: z.string().min(1, "Meta description is required"),
+    status: z.enum(["DRAFT", "PUBLISHED"]),
+});
+
+export default function Editor({ onSave, existingPost }) {
 
     const { register, handleSubmit, setValue } = useForm();
     const [content, setContent] = useState("");
     const [ogImage, setOgImage] = useState("");
 
-    useEffect(()=>{
-        if(existingPost){
-            setValue("title" , existingPost.title)
-            setValue("excerpt" , existingPost.excerpt || "")
-            setValue("category" , existingPost.categoryId.name || "")
-            setValue("keywords" , existingPost.keywords || "")
-            setValue("metaDescription" , existingPost.desc || "")
-            setValue("status" , existingPost.status)
+    useEffect(() => {
+        if (existingPost) {
+            setValue("title", existingPost.title)
+            setValue("excerpt", existingPost.excerpt || "")
+            setValue("category", existingPost.categoryId.name || "")
+            setValue("keywords", existingPost.keywords || "")
+            setValue("metaDescription", existingPost.desc || "")
+            setValue("status", existingPost.status)
             setContent(existingPost.content)
             setOgImage(existingPost.thumbnail)
         }
@@ -42,7 +60,23 @@ export default function Editor({ onSave , existingPost }) {
             <form
                 action=""
                 className="rounded shadow-md w-full md:max-w-[60vw] flex flex-col gap-3"
-                onSubmit={handleSubmit(handleForm)}
+                onSubmit={handleSubmit(async (data) => {
+                    try {
+                        await editorSchema.parseAsync(data);
+                        handleForm(data);
+                    } catch (error) {
+                        console.log(error.message)
+                        if (error instanceof z.ZodError) {
+                            error.errors.forEach(error => {
+                                toast({ 
+                                    title: "Form Criteria not fulfilled", 
+                                    description: error.message, 
+                                    variant: "destructive" 
+                                })
+                            })
+                        }
+                    }
+                })}
             >
                 <label htmlFor="title" className="block text-gray-700 font-semibold">Title</label>
                 <input
@@ -70,10 +104,10 @@ export default function Editor({ onSave , existingPost }) {
                     type="text"
                     className="text-black w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
                     placeholder="Enter category"
-                    disabled={true}
+                    disabled={existingPost && true}
                 />
 
-                <ImageUpload returnImage={setOgImage} existingPostImage={ogImage}/>
+                <ImageUpload returnImage={setOgImage} existingPostImage={ogImage} />
 
                 <label htmlFor="keywords" className="block text-gray-700 font-semibold">Keywords</label>
                 <input
@@ -103,7 +137,7 @@ export default function Editor({ onSave , existingPost }) {
                     </select>
                     <Button variant={"secondary"} className="w-fit">Save</Button>
                 </div>
-            </form> 
+            </form>
         </section>
     )
 }

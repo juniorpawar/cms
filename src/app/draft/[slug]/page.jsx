@@ -2,13 +2,15 @@
 
 import Editor from "@/components/editor";
 import { toast } from "@/hooks/use-toast";
+// import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-
 
 export default function UpdateSingleDraft({ params }) {
     const { slug } = params;
 
     const [post, setPost] = useState();
+    // const router = useRouter()
+
     useEffect(() => {
         const fetchExistingPost = async () => {
             const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/v1/update/${slug}` , {cache: 'no-store'});
@@ -45,7 +47,6 @@ export default function UpdateSingleDraft({ params }) {
                 })
             }
         )
-        console.log(response);
         const resData = await response.json();
         if (!response.ok) {
             console.log(resData);
@@ -62,17 +63,17 @@ export default function UpdateSingleDraft({ params }) {
                 description: "Your draft has been successfully Updated.\nYou can edit it any time 👍",
                 variant: "success",
             });
-            // redirect("/sign-in")
-
-            console.log(resData);
+            // router.push(`/blog/${slug}`)
         }
         //api call to our backend  
     }
 
     if (!post) {
-        return <div>
-            no post fetched or found
-        </div>
+        return (
+            <div className="flex items-center justify-center h-[60vh]">
+            <span className="text-lg text-gray-400">No post fetched or found</span>
+            </div>
+        );
     }
 
     return (

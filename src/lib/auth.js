@@ -37,6 +37,7 @@ export const authOptions = {
 
             session.user._id = dbUser._id.toString(); // add dbuser fields to session.user
             session.user.usermame = dbUser.username;
+            session.user.role = dbUser.role;
 
             //return session continue sign in
             return session;

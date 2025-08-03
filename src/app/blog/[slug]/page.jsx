@@ -2,15 +2,23 @@ import Image from "next/image";
 import { Calendar1 } from "lucide-react";
 import dateFormat from "@/utils/dateFormat";
 import "@/styles/quillContent.css"
+import { notFound } from "next/navigation";
 
+
+//GET request to backend "http//localhost:3000/api/v1/get/blog-slug" to fetch single blog post
 const fetchSingleBlog = async (slug) => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/v1/get/${slug}`, {
         method: "GET",
-        cache: "no-store"
+        cache: "no-store" // no cache stores ensures fetches updated data every time 
         // next: {
         //     tags: { slug }
         // }
     });
+
+    if(!response.ok){
+        notFound(404);   //handeling if request for non existing post or drafts (slug)
+    }
+
     const data = response.json();
     return data;
 }
@@ -18,7 +26,7 @@ const fetchSingleBlog = async (slug) => {
 export default async function BlogPage({ params }) {
 
     const { slug } = params;
-    const post = await fetchSingleBlog(slug);
+    const post = await fetchSingleBlog(slug); //function call to fetch data from backend
     const date = post.createdAt
     const tags = post.keywords.split(",");
 
