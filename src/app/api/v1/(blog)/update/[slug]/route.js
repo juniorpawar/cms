@@ -14,9 +14,13 @@ export async function PUT(request, { params }) {
 
     const session = await getServerSession(authOptions)
     const adminCheck = session.user.role === "ADMIN"
-    console.log("session by the server : ", session?.user)
+    const authCheck = session.status === "authorized"
+    if (!adminCheck || !authCheck) {
+        return NextResponse.json({ message: 'not authorized' }, { ststus: 403 });
+    }
+    // console.log("session by the server : ", session?.user)
 
-    const post = await Post.findOne({ slug: slug, authorId: session.user._id })
+    const post = await Post.findOne({ slug: slug })
 
     if (!post) {
         return NextResponse.json({ message: `post not found` }, { status: 404 });
@@ -55,7 +59,7 @@ export async function PUT(request, { params }) {
 }
 
 
-export async function GET(request , { params }) {
+export async function GET(request, { params }) {
     try {
         const { slug } = params;
         // const body = await request.json();
@@ -64,7 +68,7 @@ export async function GET(request , { params }) {
         const session = await getServerSession(authOptions);
         const adminCheck = session.user.role === "ADMIN"
 
-        const post = await Post.findOne({ slug }).populate("categoryId" , "name");
+        const post = await Post.findOne({ slug }).populate("categoryId", "name");
         if (!post) {
             return NextResponse.json({ message: `post not found` }, { status: 404 });
         }
@@ -80,7 +84,7 @@ export async function GET(request , { params }) {
         return NextResponse.json(post, { status: 200 });
     } catch (err) {
         console.error(err.message);
-        return NextResponse.json({message: err.message} , {status :500})
+        return NextResponse.json({ message: err.message }, { status: 500 })
     }
 
 }

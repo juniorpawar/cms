@@ -36,7 +36,7 @@ export default function Editor({ onSave, existingPost }) {
         if (existingPost) {
             setValue("title", existingPost.title)
             setValue("excerpt", existingPost.excerpt || "")
-            setValue("category", existingPost.categoryId.name || "")
+            setValue("category", existingPost.categoryId?.name || "")
             setValue("keywords", existingPost.keywords || "")
             setValue("metaDescription", existingPost.desc || "")
             setValue("status", existingPost.status)

@@ -27,6 +27,7 @@ export default async function BlogPage({ params }) {
 
     const { slug } = params;
     const post = await fetchSingleBlog(slug); //function call to fetch data from backend
+    // console.log(post);
     const date = post.createdAt
     const tags = post.keywords.split(",");
 
