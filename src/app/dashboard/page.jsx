@@ -28,7 +28,6 @@ export default function Dashboard() {
             description: "Successfully logged in to Project CMS",
             variant: "success",
         });
-
     }
 
     return (

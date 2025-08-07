@@ -1,8 +1,37 @@
 "use client"
 import Editor from "@/components/editor";
 import { toast } from "@/hooks/use-toast";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
+
 
 export default function Draft() {
+
+    const session = useSession();
+    console.log(session?.data);
+
+    if (session.status === "loading") {
+        console.log(session.status)
+        return <div>Loading...</div>;
+    }
+
+    if (session.status === "unauthenticated") {
+        toast({
+            title: "Access Denied",
+            description: "You must be signed in to view this page.",
+            variant: "destructive",
+        });
+        redirect("/sign-in");
+    } else {
+        toast({
+            title: "Welcome back 🔥",
+            description: "Successfully logged in to Project CMS",
+            variant: "success",
+        });
+
+    }
+
+
     const savePost = async ({ title, keywords, ogImage, content, excerpt, metaDescription, category, status, slug }) => {
         const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/v1/create`,
             {
@@ -46,6 +75,7 @@ export default function Draft() {
         }
         //api call to our backend  
     }
+
     return (
         <div>
             <Editor onSave={savePost} />
