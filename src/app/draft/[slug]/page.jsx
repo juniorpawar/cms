@@ -29,6 +29,7 @@ export default function UpdateSingleDraft({ params }) {
     }, [slug])
 
     const savePost = async ({ title, keywords, ogImage, content, excerpt, metaDescription, category, status }) => {
+        console.log("status in editor : ",status)
         const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/v1/update/${slug}`,
             {
                 method: "PUT",

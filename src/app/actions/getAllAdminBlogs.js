@@ -4,12 +4,15 @@ import Post from "@/models/postModel";
 import { config } from "@/static/postConfig";
 
 export async function getAllAdminBlogs({ page, category }) {
-    category = "lgbtq";
+    // category = "travel"
     const postsPerPage = config.perPage || 5;
 
     let filter = {}, cat, catId;
-    if (category && typeof category === "string" && category.trim() !== '') {
+    if (category) {
         cat = await Category.findOne({ slug: category });
+        if(!cat){
+            return {posts: [] , count: 0}
+        }
         catId = cat._id;
         filter = {
             categoryId: catId
@@ -17,10 +20,11 @@ export async function getAllAdminBlogs({ page, category }) {
     }
     // console.log("filter from query : " , filter)
 
-    const response = await Post.find(filter).populate("categoryId").limit(postsPerPage).skip(postsPerPage * (page - 1));
+    const response = await Post.find(filter).populate("categoryId").populate("authorId" , "username").limit(postsPerPage).skip(postsPerPage * (page - 1));
     // console.log(response)
-    // console.log(response.length,"Length") 
+    const count = await Post.countDocuments(filter)
+    // console.log(count)
     return (
-        { posts: response, count: response.length }
+        { posts: response, count: count }
     )
 }

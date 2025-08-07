@@ -11,6 +11,7 @@ export async function PUT(request, { params }) {
     const { slug } = params;
     const body = await request.json();
     const { title, keywords, ogImage, content, excerpt, metaDescription, category, status } = body;
+    console.log("status in PUT api : ",status);
 
     const session = await getServerSession(authOptions)
     const adminCheck = session.user.role === "ADMIN"
@@ -42,14 +43,14 @@ export async function PUT(request, { params }) {
                     desc: metaDescription || null,
                     keywords: keywords || null,
                     excerpt: excerpt || null,
-                    status
+                    status : status
                 }
             },
             { new: true }
         )
 
         revalidateTag(slug);
-        // console.log("UPDATED POST : ", updatedPost);
+        console.log("UPDATED POST : ", updatedPost);
         return NextResponse.json(updatedPost, { status: 200 });
 
     } catch (err) {
